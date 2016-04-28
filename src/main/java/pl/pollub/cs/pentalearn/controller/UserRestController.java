@@ -38,9 +38,7 @@ public class UserRestController {
     public List<User> listUsers() {
         LOGGER.debug("Received request to list all users");
 
-        QuestionCategory math=new QuestionCategory("Math");
-        math.addQuestion(new Question("JAkies pytanie matenatyczne"));
-        questionCategoryRepository.save(math);
+
 
         return userService.getList();
     }

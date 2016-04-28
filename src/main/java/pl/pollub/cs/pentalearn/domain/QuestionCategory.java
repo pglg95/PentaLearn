@@ -1,7 +1,10 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +19,7 @@ public class QuestionCategory {
     private Long id;
 
     @NotNull
+    @Size(max = 64)
     private String name;
 
     @NotNull
@@ -24,6 +28,9 @@ public class QuestionCategory {
 
     public QuestionCategory(String name) {
         this.name = name;
+    }
+
+    private QuestionCategory() {
     }
 
     public void addQuestion(Question question){

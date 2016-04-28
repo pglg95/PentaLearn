@@ -9,4 +9,6 @@ import pl.pollub.cs.pentalearn.domain.QuestionCategory;
  */
 @Repository
 public interface QuestionCategoryRepository extends CrudRepository<QuestionCategory,Long>{
+    QuestionCategory findByName(String name);
+    QuestionCategory findById(Long id);
 }

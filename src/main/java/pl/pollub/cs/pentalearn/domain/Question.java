@@ -2,6 +2,7 @@ package pl.pollub.cs.pentalearn.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -18,14 +19,17 @@ public class Question {
     private QuestionCategory questionCategory;
 
     @NotNull
+    @Size(max = 64)
     private String questionText;
 
   //  @NotNull
    // private AnswerScheme answerScheme;
 
+    private Question(){}
 
-    public Question(String questionText) {
+    public Question(String questionText,QuestionCategory questionCategory) {
         this.questionText = questionText;
+        this.questionCategory=questionCategory;
     }
 
     public void setQuestionCategory(QuestionCategory questionCategory) {

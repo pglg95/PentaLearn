@@ -34,7 +34,6 @@ public class QuestionCategory {
     }
 
     public void addQuestion(Question question){
-        question.setQuestionCategory(this);
         questions.add(question);
     }
     public List<Question> getQuestion() {

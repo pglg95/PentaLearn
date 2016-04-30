@@ -21,7 +21,7 @@ public class QuestionCategoryListController {
     }
 
     @RequestMapping("/question_category_list.html")
-    public ModelAndView getListUsersView() {
+    public ModelAndView getListQuestionCategoriesView() {
         ModelMap model = new ModelMap();
         model.addAttribute("qcategories", questionCategoryService.getList());
         return new ModelAndView("question_category_list", model);

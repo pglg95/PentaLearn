@@ -3,6 +3,8 @@ package pl.pollub.cs.pentalearn.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,14 +24,19 @@ public class Question {
     @Size(max = 64)
     private String questionText;
 
-  //  @NotNull
-   // private AnswerScheme answerScheme;
+    @NotNull
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    private List<Answer> answers=new ArrayList<>();
 
     private Question(){}
 
     public Question(String questionText,QuestionCategory questionCategory) {
         this.questionText = questionText;
         this.questionCategory=questionCategory;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
     public void setQuestionCategory(QuestionCategory questionCategory) {
@@ -46,5 +53,9 @@ public class Question {
 
     public String getQuestionText() {
         return questionText;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
     }
 }

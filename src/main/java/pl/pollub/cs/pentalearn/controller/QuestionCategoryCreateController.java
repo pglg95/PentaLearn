@@ -39,7 +39,7 @@ public class QuestionCategoryCreateController {
     }
 
     @RequestMapping(value = "/question_category_create.html", method = RequestMethod.POST)
-    public String createUser(@Valid @ModelAttribute("form") QuestionCategoryCreateForm form, BindingResult result) {
+    public String createQuestionCategory(@Valid @ModelAttribute("form") QuestionCategoryCreateForm form, BindingResult result) {
         if (result.hasErrors()) {
             return "question_category_create";
         }

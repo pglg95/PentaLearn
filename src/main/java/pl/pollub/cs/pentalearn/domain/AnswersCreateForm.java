@@ -2,7 +2,10 @@ package pl.pollub.cs.pentalearn.domain;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -12,27 +15,16 @@ import java.util.List;
  */
 public class AnswersCreateForm {
 
-    @NotNull
-    private List<Boolean> corrects;
+    @Min(1)
+    @Max(10)
+    private Integer answersNumber;
 
-    @NotNull
-    private List<String> answerTexts;
-
-
-    public List<Boolean> getCorrects() {
-        return corrects;
+    public Integer getAnswersNumber() {
+        return answersNumber;
     }
 
-    public void setCorrects(List<Boolean> correct) {
-        this.corrects = correct;
-    }
-
-    public List<String> getAnswerTexts() {
-        return answerTexts;
-    }
-
-    public void setAnswerTexts(List<String> answerText) {
-        this.answerTexts = answerText;
+    public void setAnswersNumber(Integer answersNumber) {
+        this.answersNumber = answersNumber;
     }
 
 }

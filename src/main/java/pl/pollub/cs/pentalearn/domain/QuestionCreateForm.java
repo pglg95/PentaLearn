@@ -2,7 +2,9 @@ package pl.pollub.cs.pentalearn.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -17,10 +19,35 @@ public class QuestionCreateForm {
 
     private Long questionCategoryId;
 
+    @NotEmpty
+    @Valid
     private List<Boolean> corrects;
 
+    @NotEmpty
+    @Valid
     private List<String> answerTexts;
 
+    @Min(2)
+    @Max(10)
+    private Integer answersNumber;
+
+    private Boolean answersNumberChanged;
+
+    public Boolean getAnswersNumberChanged() {
+        return answersNumberChanged;
+    }
+
+    public void setAnswersNumberChanged(Boolean answersNumberChanged) {
+        this.answersNumberChanged = answersNumberChanged;
+    }
+
+    public Integer getAnswersNumber() {
+        return answersNumber;
+    }
+
+    public void setAnswersNumber(Integer answersNumber) {
+        this.answersNumber = answersNumber;
+    }
 
     public List<Boolean> getCorrects() {
         return corrects;

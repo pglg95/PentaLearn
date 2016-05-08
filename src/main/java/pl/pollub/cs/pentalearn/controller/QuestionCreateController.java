@@ -44,20 +44,52 @@ public class QuestionCreateController {
        // binder.addValidators(questionCreateFormQuestionCategoryIdValidator);
     }
 
-    @RequestMapping(value = "/question_create.html", method = RequestMethod.GET)
-    public ModelAndView getQuestionCreateView() {
+
+    public ModelAndView getQuestionCreateView(QuestionCreateForm questionCreateForm) {
         ModelMap model = new ModelMap();
         model.addAttribute("questionCategories", questionCategoryService.getList());
-        model.addAttribute("form",new QuestionCreateForm());
-       // model.addAttribute("answers",new AnswersCreateForm());
-
+        model.addAttribute("form",questionCreateForm);
         return new ModelAndView("question_create", model);
     }
+
+    @RequestMapping(value = "/question_create.html", method = RequestMethod.GET)
+    public ModelAndView getQuestionCreateView() {
+        QuestionCreateForm questionCreateForm=new QuestionCreateForm();
+        questionCreateForm.setAnswersNumber(3);
+        return getQuestionCreateView(questionCreateForm);
+    }
+
+
+   /* @RequestMapping(value="/question_create.html",method = RequestMethod.POST)
+    public ModelAndView setAnswersNumber(@ModelAttribute("form") @Valid QuestionCreateForm form,
+                                         @ModelAttribute("answers") @Valid AnswersCreateForm answersCreateForm,
+                                         BindingResult result){
+        if (result.hasErrors()) {
+            ModelMap model = new ModelMap();
+            model.addAttribute("questionCategories", questionCategoryService.getList());
+            model.addAttribute("form");
+            model.addAttribute("answers",new AnswersCreateForm());
+            return new ModelAndView("question_create", model);
+
+        }
+        else{
+            ModelMap model = new ModelMap();
+            model.addAttribute("questionCategories", questionCategoryService.getList());
+            model.addAttribute("form");
+            model.addAttribute("answers");
+            return new ModelAndView("question_create", model);
+        }
+
+
+    }*/
 
     @RequestMapping(value = "/question_create.html", method = RequestMethod.POST)
     public ModelAndView createQuestion(@ModelAttribute("form") @Valid QuestionCreateForm form,
                                       /* @ModelAttribute("answers") @Valid AnswersCreateForm answersCreateForm,*/
                                        BindingResult result) {
+        if(form.getAnswersNumberChanged()){
+            return getQuestionCreateView(form);
+        }
         if (result.hasErrors()) {
 
             ModelMap model = new ModelMap();
@@ -67,32 +99,34 @@ public class QuestionCreateController {
             return new ModelAndView("question_create", model);
 
         }
-        try {
-            QuestionCategory category=questionCategoryService.getById(form.getQuestionCategoryId());
-            Question question=new Question(form.getQuestionText(),category);
-            questionService.save(question);
-            category.addQuestion(question);
+        else {
+            try {
+                QuestionCategory category = questionCategoryService.getById(form.getQuestionCategoryId());
+                Question question = new Question(form.getQuestionText(), category);
+                questionService.save(question);
+                category.addQuestion(question);
 
-            List<Answer> answers=new ArrayList<>();
-            for(int i=0;i<form.getAnswerTexts().size();i++){
-                Answer answer=new Answer(question,form.getAnswerTexts().get(i),
-                                                  form.getCorrects().get(i) );
-                answers.add(answer);
-                answerService.save(answer);
+                List<Answer> answers = new ArrayList<>();
+                for (int i = 0; i < form.getAnswerTexts().size(); i++) {
+                    Answer answer = new Answer(question, form.getAnswerTexts().get(i),
+                            form.getCorrects().get(i));
+                    answers.add(answer);
+                    answerService.save(answer);
+                }
+                question.setAnswers(answers);
+
+
+            } catch (NoSuchQuestionCategory e) {
+                result.reject("question.error");
+
+                ModelMap model = new ModelMap();
+                model.addAttribute("questionCategories", questionCategoryService.getList());
+                model.addAttribute("form");
+                return new ModelAndView("question_create", model);
             }
-            question.setAnswers(answers);
 
-
-        } catch (NoSuchQuestionCategory e) {
-            result.reject("question.error");
-
-            ModelMap model = new ModelMap();
-            model.addAttribute("questionCategories", questionCategoryService.getList());
-            model.addAttribute("form");
-            return new ModelAndView("question_create", model);
+            return new ModelAndView("redirect:/question_category_list.html");
         }
-
-        return new ModelAndView("redirect:/question_category_list.html");
 
     }
 

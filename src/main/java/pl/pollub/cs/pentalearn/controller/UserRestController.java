@@ -1,9 +1,7 @@
 package pl.pollub.cs.pentalearn.controller;
 
-import pl.pollub.cs.pentalearn.domain.Question;
-import pl.pollub.cs.pentalearn.domain.QuestionCategory;
 import pl.pollub.cs.pentalearn.domain.User;
-import pl.pollub.cs.pentalearn.repository.QuestionCategoryRepository;
+import pl.pollub.cs.pentalearn.repository.CategoryRepository;
 import pl.pollub.cs.pentalearn.service.UserService;
 import pl.pollub.cs.pentalearn.service.exception.UserAlreadyExistsException;
 import org.slf4j.Logger;
@@ -20,12 +18,12 @@ public class UserRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRestController.class);
     private final UserService userService;
-    private QuestionCategoryRepository questionCategoryRepository;
+    private CategoryRepository categoryRepository;
 
     @Inject
-    public UserRestController(final UserService userService,QuestionCategoryRepository questionCategoryRepository) {
+    public UserRestController(final UserService userService, CategoryRepository categoryRepository) {
         this.userService = userService;
-        this.questionCategoryRepository=questionCategoryRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
@@ -38,9 +36,7 @@ public class UserRestController {
     public List<User> listUsers() {
         LOGGER.debug("Received request to list all users");
 
-        QuestionCategory math=new QuestionCategory("Math");
-        math.addQuestion(new Question("JAkies pytanie matenatyczne"));
-        questionCategoryRepository.save(math);
+
 
         return userService.getList();
     }

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pollub.cs.pentalearn.domain.*;
 import pl.pollub.cs.pentalearn.service.AnswerService;
-import pl.pollub.cs.pentalearn.service.QuestionCategoryService;
+import pl.pollub.cs.pentalearn.service.CategoryService;
 import pl.pollub.cs.pentalearn.service.QuestionService;
-import pl.pollub.cs.pentalearn.service.exception.NoSuchQuestionCategory;
+import pl.pollub.cs.pentalearn.service.exception.NoSuchCategory;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -22,20 +22,30 @@ import java.util.List;
 /**
  * Created by pglg on 25-04-2016.
  */
+
+/*TE LINIJKII WYRZUCAJA BLAD BO BRAKUJE ELEMENTOW DO KONSTRUKTORA A TO WIAZE SIE NARAZIE Z
+NAPISANIEM JSP (DOSC ROZBUDOWANEGO) I POBRANIEM TEGO OD URZYTKOWNIKA. PRZY ZMIANIE NA REST
+TO POWINNO SIE LATWO NAPRAWIC.
+ */
+
+
+
+
+
 @Controller
 public class QuestionCreateController {
 
 
     private final QuestionService questionService;
-    private final QuestionCategoryService questionCategoryService;
+    private final CategoryService categoryService;
     private final AnswerService answerService;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserCreateController.class);
 
 
     @Inject
-    public QuestionCreateController(QuestionService questionService, QuestionCategoryService questionCategoryService, AnswerService answerService) {
+    public QuestionCreateController(QuestionService questionService, CategoryService categoryService, AnswerService answerService) {
         this.questionService = questionService;
-        this.questionCategoryService = questionCategoryService;
+        this.categoryService = categoryService;
         this.answerService = answerService;
     }
 
@@ -47,7 +57,7 @@ public class QuestionCreateController {
 
     public ModelAndView getQuestionCreateView(QuestionCreateForm questionCreateForm) {
         ModelMap model = new ModelMap();
-        model.addAttribute("questionCategories", questionCategoryService.getList());
+        model.addAttribute("questionCategories", categoryService.getList());
         model.addAttribute("form",questionCreateForm);
         return new ModelAndView("question_create", model);
     }
@@ -60,29 +70,6 @@ public class QuestionCreateController {
     }
 
 
-   /* @RequestMapping(value="/question_create.html",method = RequestMethod.POST)
-    public ModelAndView setAnswersNumber(@ModelAttribute("form") @Valid QuestionCreateForm form,
-                                         @ModelAttribute("answers") @Valid AnswersCreateForm answersCreateForm,
-                                         BindingResult result){
-        if (result.hasErrors()) {
-            ModelMap model = new ModelMap();
-            model.addAttribute("questionCategories", questionCategoryService.getList());
-            model.addAttribute("form");
-            model.addAttribute("answers",new AnswersCreateForm());
-            return new ModelAndView("question_create", model);
-
-        }
-        else{
-            ModelMap model = new ModelMap();
-            model.addAttribute("questionCategories", questionCategoryService.getList());
-            model.addAttribute("form");
-            model.addAttribute("answers");
-            return new ModelAndView("question_create", model);
-        }
-
-
-    }*/
-
     @RequestMapping(value = "/question_create.html", method = RequestMethod.POST)
     public ModelAndView createQuestion(@ModelAttribute("form") @Valid QuestionCreateForm form,
                                       /* @ModelAttribute("answers") @Valid AnswersCreateForm answersCreateForm,*/
@@ -93,15 +80,19 @@ public class QuestionCreateController {
         if (result.hasErrors()) {
 
             ModelMap model = new ModelMap();
-            model.addAttribute("questionCategories", questionCategoryService.getList());
+            model.addAttribute("questionCategories", categoryService.getList());
             model.addAttribute("form");
 
             return new ModelAndView("question_create", model);
 
         }
         else {
-            try {
-                QuestionCategory category = questionCategoryService.getById(form.getQuestionCategoryId());
+            /*W TYM BLOKU SA TE DWIE LINIJKI O KTORYCH PISALEM WYZEJ. KOMENTUJE TO ABY SIE
+            * KOMPILOWALO ZEBY MOC ZOBACZYC ZMIANY W STRUKTURZE BAZY DANYCH*/
+
+
+           /* try {
+                Category category = categoryService.getById(form.getQuestionCategoryId());
                 Question question = new Question(form.getQuestionText(), category);
                 questionService.save(question);
                 category.addQuestion(question);
@@ -116,14 +107,15 @@ public class QuestionCreateController {
                 question.setAnswers(answers);
 
 
-            } catch (NoSuchQuestionCategory e) {
+            } catch (NoSuchCategory e) {
                 result.reject("question.error");
 
                 ModelMap model = new ModelMap();
-                model.addAttribute("questionCategories", questionCategoryService.getList());
+                model.addAttribute("questionCategories", categoryService.getList());
                 model.addAttribute("form");
                 return new ModelAndView("question_create", model);
-            }
+            }*/
+
 
             return new ModelAndView("redirect:/question_category_list.html");
         }

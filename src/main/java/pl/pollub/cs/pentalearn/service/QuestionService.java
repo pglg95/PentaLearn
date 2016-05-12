@@ -1,7 +1,6 @@
 package pl.pollub.cs.pentalearn.service;
 
 import pl.pollub.cs.pentalearn.domain.Question;
-import pl.pollub.cs.pentalearn.domain.QuestionCategory;
 
 import java.util.List;
 

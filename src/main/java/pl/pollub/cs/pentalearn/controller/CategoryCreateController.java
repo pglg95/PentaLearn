@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import pl.pollub.cs.pentalearn.domain.QuestionCategory;
+import pl.pollub.cs.pentalearn.domain.Category;
 import pl.pollub.cs.pentalearn.domain.QuestionCategoryCreateForm;
-import pl.pollub.cs.pentalearn.service.QuestionCategoryService;
-import pl.pollub.cs.pentalearn.service.exception.QuestionCategoryAlreadyExistException;
+import pl.pollub.cs.pentalearn.service.CategoryService;
+import pl.pollub.cs.pentalearn.service.exception.CategoryAlreadyExistException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -20,13 +20,13 @@ import javax.validation.Valid;
  * Created by pglg on 24-04-2016.
  */
 @Controller
-public class QuestionCategoryCreateController {
+public class CategoryCreateController {
 
-    private final QuestionCategoryService questionCategoryService;
+    private final CategoryService categoryService;
 
     @Inject
-    public QuestionCategoryCreateController(QuestionCategoryService questionCategoryService) {
-        this.questionCategoryService = questionCategoryService;
+    public CategoryCreateController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @InitBinder("form")
@@ -44,8 +44,8 @@ public class QuestionCategoryCreateController {
             return "question_category_create";
         }
         try {
-            questionCategoryService.save(new QuestionCategory(form.getName()));
-        } catch (QuestionCategoryAlreadyExistException e) {
+            categoryService.save(new Category(form.getName()));
+        } catch (CategoryAlreadyExistException e) {
             result.reject("question.category.error.exist");
             return "question_category_create";
         }

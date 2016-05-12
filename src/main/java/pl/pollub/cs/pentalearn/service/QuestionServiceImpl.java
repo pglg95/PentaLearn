@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pl.pollub.cs.pentalearn.domain.Question;
-import pl.pollub.cs.pentalearn.domain.QuestionCategory;
 import pl.pollub.cs.pentalearn.repository.QuestionRepository;
 
 import javax.inject.Inject;

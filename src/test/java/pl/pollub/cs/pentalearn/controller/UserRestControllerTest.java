@@ -1,7 +1,7 @@
 package pl.pollub.cs.pentalearn.controller;
 
 import pl.pollub.cs.pentalearn.domain.User;
-import pl.pollub.cs.pentalearn.repository.QuestionCategoryRepository;
+import pl.pollub.cs.pentalearn.repository.CategoryRepository;
 import pl.pollub.cs.pentalearn.service.UserService;
 import pl.pollub.cs.pentalearn.util.UserUtil;
 import org.junit.Before;
@@ -23,13 +23,13 @@ public class UserRestControllerTest {
     private UserService userService;
 
     @Mock
-    private QuestionCategoryRepository questionCategoryRepository;
+    private CategoryRepository categoryRepository;
 
     private UserRestController userRestController;
 
     @Before
     public void setUp() throws Exception {
-        userRestController = new UserRestController(userService,questionCategoryRepository);
+        userRestController = new UserRestController(userService, categoryRepository);
     }
 
     @Test

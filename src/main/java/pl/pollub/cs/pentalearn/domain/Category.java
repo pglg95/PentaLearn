@@ -12,7 +12,7 @@ import java.util.List;
  * Created by pglg on 24-04-2016.
  */
 @Entity
-public class QuestionCategory {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,22 +23,32 @@ public class QuestionCategory {
     private String name;
 
     @NotNull
-    @OneToMany(mappedBy = "questionCategory",cascade = CascadeType.ALL)
-    private List<Question> questions=new ArrayList<>();
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    private List<Course> courses=new ArrayList<>();
 
-    public QuestionCategory(String name) {
+    public Category(String name) {
         this.name = name;
     }
 
-    private QuestionCategory() {
+    private Category() {
     }
 
-    public void addQuestion(Question question){
-        questions.add(question);
+    public void addCourse(Course course){
+       courses.add(course);
     }
-    public List<Question> getQuestion() {
-        return questions;
+
+    public List<Course> getCourses() {
+        return courses;
     }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public Long getId() {
         return id;

@@ -1,5 +1,7 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -49,6 +51,7 @@ public class Exercise {
         this.id = id;
     }
 
+    @JsonIgnore
     public Chapter getChapter() {
         return chapter;
     }

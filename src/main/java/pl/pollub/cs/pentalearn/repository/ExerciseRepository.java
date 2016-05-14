@@ -9,4 +9,5 @@ import pl.pollub.cs.pentalearn.domain.Exercise;
  */
 @Repository
 public interface ExerciseRepository extends CrudRepository<Exercise,Long> {
+    Exercise getExerciseByChapterId(long chapterId);
 }

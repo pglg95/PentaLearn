@@ -1,5 +1,6 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ public class Category {
        courses.add(course);
     }
 
+    @JsonIgnore
     public List<Course> getCourses() {
         return courses;
     }

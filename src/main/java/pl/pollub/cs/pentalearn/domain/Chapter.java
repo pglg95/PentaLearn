@@ -1,7 +1,10 @@
 package pl.pollub.cs.pentalearn.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +32,20 @@ public class Chapter {
     @OneToMany(mappedBy = "chapter",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
     private List<Exercise> exercises=new ArrayList<>();
 
+    @NotNull
+    @Size(max = 32)
+    private String name;
+
+    @NotNull
+    @Size(max = 64)
+    private String description;
+
     private Chapter(){}
 
     public Chapter(Course course) {
         this.course = course;
     }
+
 
     public void addLecture(Lecture lecture){
         this.lectures.add(lecture);
@@ -51,6 +63,7 @@ public class Chapter {
         this.id = id;
     }
 
+    @JsonIgnore
     public Course getCourse() {
         return course;
     }
@@ -59,6 +72,7 @@ public class Chapter {
         this.course = course;
     }
 
+    @JsonIgnore
     public List<Lecture> getLectures() {
         return lectures;
     }
@@ -67,6 +81,7 @@ public class Chapter {
         this.lectures = lectures;
     }
 
+    @JsonIgnore
     public List<Exercise> getExercises() {
         return exercises;
     }
@@ -74,4 +89,12 @@ public class Chapter {
     public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
     }
+
+    public String getName() {return name;}
+
+    public void setName(String name) {this.name = name;}
+
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
 }

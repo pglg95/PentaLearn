@@ -38,4 +38,11 @@ public class ChapterServiceImpl implements ChapterService {
         return (List<Chapter>) chapterRepository.findAll();
     }
 
+    //Added method here - WN
+    @Override
+    @Transactional(readOnly = true)
+    public List<Chapter> getChaptersByCourseId(long courseId) {
+        return chapterRepository.getChaptersByCourseId(courseId);
+    }
+
 }

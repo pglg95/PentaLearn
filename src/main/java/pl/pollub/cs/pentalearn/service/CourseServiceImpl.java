@@ -35,6 +35,13 @@ public class CourseServiceImpl implements CourseService {
         return (List<Course>) courseRepository.findAll();
     }
 
+    //Added method here - WN
+    @Override
+    @Transactional(readOnly = true)
+    public List<Course> getCoursesByCategoryId(long categoryId) {
+        return courseRepository.getCoursesByCategoryId( categoryId);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Course getById(@NotNull @Valid final Long id) throws NoSuchCourse {

@@ -26,9 +26,16 @@ public class LectureServiceImpl implements LectureService {
     }
 
     @Override
-    @Transactional(readOnly =true)
+    @Transactional(readOnly = true)
     public List<Lecture> getList() {
         return (List<Lecture>) lectureRepository.findAll();
+    }
+
+    //added method here -WN
+    @Override
+    @Transactional(readOnly = true)
+    public Lecture getLectureByChapterId(long chapterId) {
+        return lectureRepository.getLectureByChapterId(chapterId);
     }
 
 }

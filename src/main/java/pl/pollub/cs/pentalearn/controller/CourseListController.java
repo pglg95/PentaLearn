@@ -1,38 +1,42 @@
 package pl.pollub.cs.pentalearn.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.pollub.cs.pentalearn.domain.Category;
 import pl.pollub.cs.pentalearn.domain.Course;
 import pl.pollub.cs.pentalearn.service.ChapterService;
 import pl.pollub.cs.pentalearn.service.CourseService;
 import pl.pollub.cs.pentalearn.service.exception.NoSuchCourse;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * Created by Wojciech on 2016-04-30.
  */
-@Controller
+@RestController
+@RequestMapping(value = "/api/categories/{categoryId}/courses")
 public class CourseListController {
 
     private final CourseService courseService;
-    private final ChapterService chapterService;
+
 
     @Inject
-    public CourseListController(CourseService courseService, ChapterService chapterService) {
+    public CourseListController(CourseService courseService) {
         this.courseService = courseService;
-        this.chapterService = chapterService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showAllCourses(){
-        return new ModelAndView("Course/course", "courses", courseService.getList());
+    public List<Course> showCoursesByCategoryId(@PathVariable Long categoryId){
+        return courseService.getCoursesByCategoryId(categoryId);
     }
 
+    // JSP Nie usuwam jeszcze na wszelki wypadek //
+
+    /*
     @RequestMapping(value = "/showChapters", method = RequestMethod.POST)
     public ModelAndView moveToCourse(@RequestParam("courseNumber") Long courseNumber){
         ModelAndView mav = new ModelAndView("Course/showChapters");
@@ -52,6 +56,6 @@ public class CourseListController {
             return mav;
         }
 
-    }
+    } */
 
 }

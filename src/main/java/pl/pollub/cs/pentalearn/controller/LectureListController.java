@@ -1,19 +1,29 @@
 package pl.pollub.cs.pentalearn.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.pollub.cs.pentalearn.domain.Lecture;
+import pl.pollub.cs.pentalearn.service.LectureService;
+
+import javax.inject.Inject;
 
 /**
  * Created by Wojciech on 2016-05-02.
  */
-@Controller
-
+@RestController
+@RequestMapping(value = "/api/categories/{categoryId}/courses/{courseId}/chapters/{chapterId}/lectures")
 public class LectureListController {
-   /*TUTAJ TEZ TRZEBA OD POCZATKU. METODA DO DODAWANIA NOWYCH BEDZIE BARDZIEJ ROZBUDOWANA BO POTRZEBA
-   JESZCZE WYSPECYFIKOWAC KILKA RZECZY NP. KATEGORE A NIE TYLKO CHAPTER JAK TO BYLO WCZESNIEJ. NIE PISALEM
-   TEGO BO TO I TAK BEDZIE REST.
-    */
+
+    private final LectureService lectureService;
+
+    @Inject
+    public LectureListController(LectureService lectureService){
+        this.lectureService = lectureService;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public Lecture showLectureByChapterId(@PathVariable Long chapterId){
+        return lectureService.getLectureByChapterId(chapterId);
+    }
 }

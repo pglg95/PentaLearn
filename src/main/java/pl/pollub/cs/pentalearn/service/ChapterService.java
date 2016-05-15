@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface ChapterService {
     List<Chapter> getList();
+    List<Chapter> getChaptersByCourseId(long courseId);
 }

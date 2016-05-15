@@ -9,4 +9,5 @@ import pl.pollub.cs.pentalearn.domain.Lecture;
  */
 @Repository
 public interface LectureRepository extends CrudRepository<Lecture,Long> {
+    Lecture getLectureByChapterId(long chapterId);
 }

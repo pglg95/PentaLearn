@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface ExerciseService {
     List<Exercise> getList();
+    Exercise getExerciseByChapterId(long chapterId);
 }

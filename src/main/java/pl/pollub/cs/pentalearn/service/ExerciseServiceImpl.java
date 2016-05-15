@@ -31,4 +31,11 @@ public class ExerciseServiceImpl implements ExerciseService {
         return (List<Exercise>) exerciseRepository.findAll();
     }
 
+    //added method here -WN
+    @Override
+    @Transactional(readOnly = true)
+    public Exercise getExerciseByChapterId(long chapterId) {
+        return exerciseRepository.getExerciseByChapterId(chapterId);
+    }
+
 }
